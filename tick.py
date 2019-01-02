@@ -17,6 +17,8 @@ logging.basicConfig(
 
 logger = logging.getLogger()
 
+con = None
+
 try:
     dsn = "dbname='%s' user='%s' host='%s' password='%s'" % (os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_HOST"), os.getenv("DB_PASSWORD"))
     con = psycopg2.connect(dsn)
