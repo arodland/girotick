@@ -38,8 +38,11 @@ def get_data(s, n=1):
 
     logger.info('{} get_data.py start {}'.format(dt.datetime.now(), s))
 
+    con = None
+
     try:
-        con = psycopg2.connect("dbname='postgres' user='postgres' host='localhost' password='mysecretpassword'")
+        dsn = "dbname='%s' user='%s' host='%s' password='%s'" % (os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_HOST"), os.getenv("DB_PASSWORD"))
+        con = psycopg2.connect(dsn)
     except:
         logger.error("I am unable to connect to the database")
 
