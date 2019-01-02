@@ -1,3 +1,10 @@
+CREATE TABLE region (
+        id INTEGER NOT NULL,
+        name VARCHAR(80) NOT NULL,
+        UNIQUE (id),
+        UNIQUE(name)
+);
+
 CREATE TABLE station (
         id INTEGER NOT NULL,
         name VARCHAR(80) NOT NULL,
@@ -48,7 +55,6 @@ INSERT INTO "region" VALUES(3,'Africa');
 INSERT INTO "region" VALUES(4,'North America');
 INSERT INTO "region" VALUES(5,'South America');
 INSERT INTO "region" VALUES(6,'Europe');
-INSERT INTO "region" VALUES(7,'Africa');
 INSERT INTO "region" VALUES(8,'Australia');
 INSERT INTO "station" VALUES(1,'Austin, TX, USA','AU930',262.3,30.4,'',4,NULL);
 INSERT INTO "station" VALUES(2,'El Arenosillo, Spain','EA036',353.3,37.1,'',6,NULL);
