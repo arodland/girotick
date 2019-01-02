@@ -46,7 +46,8 @@ def get_data(s, n=1):
     now = dt.datetime.now()
 
     from sqlalchemy import create_engine
-    engine = create_engine('postgresql://postgres:mysecretpassword@localhost:5432/postgres')
+    dsn = "postgresql://%s:%s@%s:5432/%s" % (os.getenv("DB_USER"), os.getenv("DB_PASSWORD"), os.getenv("DB_HOST"), os.getenv("DB_NAME"))
+    engine = create_engine(dsn)
 
     #added 4/21 for SSL error workaround
     try:
