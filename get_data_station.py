@@ -62,11 +62,8 @@ def get_data(s, n=1):
         # Handle target environment that doesn't support HTTPS verification
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if n == '1':
-        fromDate = str((dt.datetime.now() - dt.timedelta(days=int(1))).strftime('%Y-%m-%d'))
-    else:
-        fromDate = str((dt.datetime.now() - dt.timedelta(days=int(n))).strftime('%Y-%m-%d'))
-    toDate = str((dt.datetime.now() + dt.timedelta(days=1)).strftime('%Y-%m-%d'))
+    fromDate = str((dt.datetime.now() - dt.timedelta(minutes=int(20))).strftime('%Y-%m-%dT%H:%M:%S'))
+    toDate = str((dt.datetime.now() + dt.timedelta(minutes=int(5))).strftime('%Y-%m-%dT%H:%M:%S'))
     urlfrom = '&fromDate=' + fromDate
     urlto = '&toDate=' + toDate
     urldates = urlfrom + urlto
@@ -83,7 +80,7 @@ def get_data(s, n=1):
 
     #get data from GIRO, save to stationdata
     urlpt1 = "https://lgdc.uml.edu/common/DIDBGetValues?ursiCode="
-    urlpt2 = "&charName=MUFD,hmF2,TEC,scaleF2,hF2,hmF1,hmE,foF2,foF1,foE,foEs,fbEs,yF1,hE,yF2&DMUF=3000"
+    urlpt2 = "&charName=MUFD,hmF2,TEC,foF2,foE,foEs&DMUF=3000"
     df_list = []
     for index, row in stationdf.iterrows():
         logger.info('{} read_csv {} {}{}{}{}'.format(dt.datetime.now(), row['code'], urlpt1, row['code'], urlpt2, urldates))
@@ -91,12 +88,12 @@ def get_data(s, n=1):
             comment='#',
             delim_whitespace=True,
             parse_dates=[0],
-            names = ['time', 'cs', 'fof2', 'qd', 'fof1', 'qd', 'mufd', 'qd', 'foes', 'qd', 'foe', 'qd', 'hf2', 'qd', 'he', 'qd', 'hme', 'qd', 'hmf2', 'qd', 'hmf1', 'qd', 'yf2', 'qd', 'yf1', 'qd', 'tec', 'qd', 'scalef2', 'qd', 'fbes', 'qd'])\
+            names = ['time', 'cs', 'fof2', 'qd', 'mufd', 'qd', 'foes', 'qd', 'foe', 'qd', 'hmf2', 'qd', 'tec', 'qd'])\
             .assign(station_id=row['id'])
         df_list.append(df)
     stationdata=pd.concat(df_list)
     logger.info('{} read_csv complete {}'.format(dt.datetime.now(),s))
-    stationdata = stationdata[['station_id', 'time', 'cs', 'fof2', 'fof1', 'mufd', 'foes', 'foe', 'hf2', 'he', 'hme', 'hmf2', 'hmf1', 'yf2',  'yf1',  'tec', 'scalef2', 'fbes']]
+    stationdata = stationdata[['station_id', 'time', 'cs', 'fof2', 'mufd', 'foes', 'foe', 'hmf2', 'tec']]
 
     #logger.info('{} getting processed records for {} from {} to {}'.format(dt.datetime.now(),s, fromDate, toDate))
     processed = pd.read_sql("SELECT * FROM measurement WHERE station_id = '{}'".format(ss), con)

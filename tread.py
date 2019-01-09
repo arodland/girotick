@@ -65,7 +65,7 @@ for i in range(threadcount):
 
 # stuff work items on the queue.
 start = time.perf_counter()
-stationdf = pd.read_sql('Select code from station', con)
+stationdf = pd.read_sql('Select code from station where active is null', con)
 stationdf = pd.Series(stationdf['code'].values)
 for item in stationdf:
     q.put(item)
