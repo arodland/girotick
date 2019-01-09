@@ -72,4 +72,4 @@ for item in stationdf:
 
 q.join()       # block until all tasks are done
 con.close()    # close db
-logger.info('time:',time.perf_counter() - start)
+logger.info('time: %.1f', (time.perf_counter() - start))
